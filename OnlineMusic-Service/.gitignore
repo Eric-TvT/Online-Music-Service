@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+#排除img和song文件夹的静态资源文件
+/img/
+/song/
