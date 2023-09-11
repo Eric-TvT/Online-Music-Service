@@ -1,5 +1,6 @@
 package com.example.onlinemusicservice.service.Impl;
 
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.onlinemusicservice.common.R;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpSession;
 
 /**
- * Admin 接口实现类
+ * Admin管理员登入 接口实现类
  */
 @Service
 public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements AdminService {

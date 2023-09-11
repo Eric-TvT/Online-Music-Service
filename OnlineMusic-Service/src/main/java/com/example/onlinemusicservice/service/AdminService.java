@@ -8,7 +8,7 @@ import com.example.onlinemusicservice.model.request.AdminRequest;
 import javax.servlet.http.HttpSession;
 
 /**
- * Admin接口类
+ * Admin管理登入（service层）
  */
 public interface AdminService extends IService<Admin> {
     R verityPasswd(AdminRequest adminRequest, HttpSession session);
