@@ -7,7 +7,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import java.util.Date;
 
 /**
- * 数据库收藏表（consumer）字段-POJO
+ * 普通用户表（consumer）字段-POJO
  */
 @TableName(value = "consumer")
 @Data

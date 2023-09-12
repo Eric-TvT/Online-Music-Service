@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * admin-用户管理控制类
+ * admin-用户管理控制类（controller层）
  */
 @RestController
 public class ConsumerController {
@@ -27,7 +27,7 @@ public class ConsumerController {
      */
     @GetMapping("/user")
     public R allUser(@RequestParam(defaultValue = "1") int curPage, @RequestParam(defaultValue = "1") int pageSize) {
-        //分页
+        //分
         IPage<Consumer> page = new Page<>();
         //设置当前页
         page.setCurrent(curPage);

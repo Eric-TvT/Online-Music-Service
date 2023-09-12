@@ -1,0 +1,18 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.onlinemusicservice.mapper.SingerMapper">
+    <resultMap id="BaseResultMap" type="com.example.onlinemusicservice.model.domain.Singer">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="sex" jdbcType="TINYINT" property="sex"/>
+        <result column="pic" jdbcType="VARCHAR" property="pic"/>
+        <result column="birth" jdbcType="VARCHAR" property="birth"/>
+        <result column="location" jdbcType="VARCHAR" property="location"/>
+        <result column="introduction" jdbcType="TIMESTAMP" property="introduction"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id
+        , name, password,sex,pic,birth,location,introduction
+    </sql>
+</mapper>

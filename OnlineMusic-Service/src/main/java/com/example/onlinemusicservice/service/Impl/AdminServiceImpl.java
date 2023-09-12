@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpSession;
 
 /**
- * Admin管理员登入 接口实现类
+ * Admin管理员登入 （service层接口实现类）
  */
 @Service
 public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements AdminService {

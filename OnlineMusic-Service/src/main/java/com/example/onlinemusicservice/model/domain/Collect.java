@@ -7,7 +7,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import java.util.Date;
 
 /**
- * collect表的字段-POJO
+ * collect表的字段-POJO-普通用户收藏表
  */
 @TableName(value = "collect")
 @Data

@@ -8,7 +8,7 @@ import com.example.onlinemusicservice.model.request.AdminRequest;
 import javax.servlet.http.HttpSession;
 
 /**
- * Admin管理登入（service层）
+ * Admin管理登入（service层接口）
  */
 public interface AdminService extends IService<Admin> {
     /**

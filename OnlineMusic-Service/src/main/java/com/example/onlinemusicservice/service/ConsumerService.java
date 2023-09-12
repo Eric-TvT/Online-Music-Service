@@ -6,7 +6,7 @@ import com.example.onlinemusicservice.common.R;
 import com.example.onlinemusicservice.model.domain.Consumer;
 
 /**
- * admin-用户管理（Service层）
+ * admin-用户管理（service层接口）
  */
 public interface ConsumerService extends IService<Consumer> {
     /**
