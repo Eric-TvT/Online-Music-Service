@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpSession;
 
 /**
- * 管理员控制层
+ * admin管理员控制类
  */
 @RestController
 public class AdminController {

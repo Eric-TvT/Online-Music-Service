@@ -10,6 +10,7 @@
         <result column="song_list_id" property="songListId" jdbcType="INTEGER"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
     </resultMap>
+<!--    根据UserId查询用户收藏的列表数据-->
     <sql id="Base_Column_List">
         id
         , user_id, `type`, song_id, song_list_id, create_time

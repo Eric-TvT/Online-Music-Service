@@ -18,8 +18,8 @@ public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> impl
     private CollectMapper collectMapper;
     @Override
     public R collectionOfUser(Integer userId) {
-//        根据userid查询该用户的收藏信息
-//            1.使用QueryWrapper设置查询条件
+        //根据userid查询该用户的收藏信息
+        //1.使用QueryWrapper设置查询条件
         QueryWrapper<Collect> queryWrapper = new QueryWrapper();
         queryWrapper.eq("user_id",userId);
         //  2.调用mybatis提供的查询列表的方法

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 收藏接口控制层
+ * 收藏接口控制类
  */
 @RestController
 public class CollectController {

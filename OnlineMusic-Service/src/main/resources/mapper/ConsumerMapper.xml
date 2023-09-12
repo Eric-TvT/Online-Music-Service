@@ -19,6 +19,10 @@
         <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"
         />
     </resultMap>
+<!--根据id批量删除用户-->
+    <delete id="deleteByIds">
+        delete from consumer where id in (${ids})
+    </delete>
 
     <sql id="Base_Column_List">
         id, username, password, sex, phone_num, email, birth, introduction,

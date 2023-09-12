@@ -11,6 +11,12 @@ import javax.servlet.http.HttpSession;
  * Admin管理登入（service层）
  */
 public interface AdminService extends IService<Admin> {
+    /**
+     * admin登入接口
+     * @param adminRequest
+     * @param session
+     * @return
+     */
     R verityPasswd(AdminRequest adminRequest, HttpSession session);
 }
 
