@@ -11,6 +11,12 @@
         <result column="location" jdbcType="VARCHAR" property="location"/>
         <result column="introduction" jdbcType="TIMESTAMP" property="introduction"/>
     </resultMap>
+    <!--根据id批量删除歌手-->
+    <delete id="deleteByIds">
+        delete from singer where id in (${ids})
+    </delete>
+
+
     <sql id="Base_Column_List">
         id
         , name, password,sex,pic,birth,location,introduction

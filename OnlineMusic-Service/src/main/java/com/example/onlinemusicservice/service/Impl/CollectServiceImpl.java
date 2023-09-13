@@ -10,12 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * 收藏接口（service层接口实现类）
+ * userId收藏接口（service层接口实现类）
  */
 @Service
 public class CollectServiceImpl extends ServiceImpl<CollectMapper, Collect> implements CollectService {
     @Autowired
     private CollectMapper collectMapper;
+
+    /**
+     * 查询userid收藏的信息
+     * @param userId
+     * @return
+     */
     @Override
     public R collectionOfUser(Integer userId) {
         //根据userid查询该用户的收藏信息

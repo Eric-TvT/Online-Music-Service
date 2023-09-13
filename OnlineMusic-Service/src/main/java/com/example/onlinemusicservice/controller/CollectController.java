@@ -15,7 +15,7 @@ public class CollectController {
     @Autowired
     private CollectService collectService;
     /**
-     * 返回的指定用户 ID 收藏的列表
+     * 查询返回的指定用户 ID 收藏的列表
      */
     @GetMapping("/collection/detail")
     public R collectionOfUser(@RequestParam Integer userId) {

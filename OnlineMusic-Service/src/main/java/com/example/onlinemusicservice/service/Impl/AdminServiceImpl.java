@@ -20,6 +20,13 @@ import javax.servlet.http.HttpSession;
 public class AdminServiceImpl extends ServiceImpl<AdminMapper, Admin> implements AdminService {
     @Autowired
     private AdminMapper adminMapper;
+
+    /**
+     * 管理员登入实现类
+     * @param adminRequest
+     * @param session
+     * @return
+     */
     @Override
     public R verityPasswd(AdminRequest adminRequest, HttpSession session) {
         //具体校验账号和密码的业务
