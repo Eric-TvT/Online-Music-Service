@@ -3,19 +3,12 @@ package com.example.onlinemusicservice.service.Impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.onlinemusicservice.common.R;
 import com.example.onlinemusicservice.mapper.SingerMapper;
-import com.example.onlinemusicservice.mapper.SongMapper;
 import com.example.onlinemusicservice.model.domain.Singer;
-import com.example.onlinemusicservice.model.domain.Song;
 import com.example.onlinemusicservice.model.request.SingerRequest;
-import com.example.onlinemusicservice.model.request.SongRequest;
 import com.example.onlinemusicservice.service.SingerService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
-import java.util.Date;
 
 /**
  * admin-歌手管理（service层接口实现类）
@@ -24,9 +17,7 @@ import java.util.Date;
 public class SingerServiceImpl extends ServiceImpl<SingerMapper, Singer> implements SingerService {
 
     @Autowired
-    private SingerMapper singerMapper;
-    @Autowired
-    private SongMapper songMapper;
+    SingerMapper singerMapper;
 
     /**
      * 查询歌手
