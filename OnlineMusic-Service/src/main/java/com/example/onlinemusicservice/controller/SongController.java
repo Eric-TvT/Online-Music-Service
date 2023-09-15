@@ -4,7 +4,14 @@ import com.example.onlinemusicservice.common.R;
 import com.example.onlinemusicservice.model.request.SongRequest;
 import com.example.onlinemusicservice.service.SongService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.util.unit.DataSize;
+import org.springframework.util.unit.DataUnit;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.MultipartConfigElement;
 
 /**
  * admin-歌手管理-歌曲管理控制类（Controller层）
@@ -14,6 +21,19 @@ public class SongController {
 
     @Autowired
     private SongService songService;
+
+
+    @Bean
+    public MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        // 文件最大10M,DataUnit提供5中类型B,KB,MB,GB,TB
+        factory.setMaxFileSize(DataSize.of(20, DataUnit.MEGABYTES));
+        // 设置总上传数据总大小10M
+        factory.setMaxRequestSize(DataSize.of(20, DataUnit.MEGABYTES));
+        return factory.createMultipartConfig();
+    }
+
+
 
     /**
      * 根据歌手Id查询歌曲列表
@@ -33,5 +53,25 @@ public class SongController {
     @PostMapping("/song/update")
     public R updateSong(@RequestBody SongRequest songRequest){
         return songService.updateSong(songRequest);
+    }
+
+    /**
+     * 删除歌曲
+     * @param id
+     * @return
+     */
+    @DeleteMapping("/song/delete")
+    public R deleteSong(@RequestParam int id){
+        return songService.deleteSong(id);
+    }
+
+    /**
+     * 添加歌曲
+     * @param songRequest
+     * @return
+     */
+    @PostMapping("/song/add")
+    public R addSinger( SongRequest songRequest,@RequestParam("file") MultipartFile mpfile){
+        return songService.addSong(songRequest,mpfile);
     }
 }

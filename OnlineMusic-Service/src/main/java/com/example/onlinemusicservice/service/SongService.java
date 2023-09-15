@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.onlinemusicservice.common.R;
 import com.example.onlinemusicservice.model.domain.Song;
 import com.example.onlinemusicservice.model.request.SongRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * admin-歌手管理-歌曲管理（service层接口）
@@ -23,4 +24,19 @@ public interface SongService extends IService<Song> {
      * @return
      */
     public R updateSong(SongRequest updateSongRequest);
+
+    /**
+     * 删除歌曲        批量删除是调用删除的方法
+     * @param id
+     * @return
+     */
+    public R deleteSong(Integer id);
+
+    /**
+     * 添加歌曲
+     * @param addSongRequest
+     * @param mpfile 表示文件二进制流
+     * @return
+     */
+    public R addSong(SongRequest addSongRequest, MultipartFile mpfile);
 }
