@@ -90,8 +90,9 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
         BeanUtils.copyProperties(addSongRequest, song);
 
         //将普通文件转为二进制流保存起来
-        String pic = "/img/songPic/tubiao.jpg";
+//        String pic = "/img/songPic/tubiao.jpg";
         String fileName = System.currentTimeMillis() + "-" + mpfile.getOriginalFilename();
+        //得到项目根目录路径
         String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "song";
         File file1 = new File(filePath);
         if (!file1.exists()) {
