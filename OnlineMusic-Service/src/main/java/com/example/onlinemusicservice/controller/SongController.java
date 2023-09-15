@@ -74,4 +74,16 @@ public class SongController {
     public R addSinger( SongRequest songRequest,@RequestParam("file") MultipartFile mpfile){
         return songService.addSong(songRequest,mpfile);
     }
+
+    /**
+     * 更新图片
+     * @param urlFile
+     * @param id
+     * @return
+     */
+    @PostMapping("/song/img/update")
+    public R updateSongPic(@RequestParam("file") MultipartFile urlFile, @RequestParam("id") int id) {
+        return songService.updateSongPic(urlFile, id);
+    }
+
 }

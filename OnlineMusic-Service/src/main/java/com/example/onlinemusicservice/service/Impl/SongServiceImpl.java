@@ -90,7 +90,7 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
         BeanUtils.copyProperties(addSongRequest, song);
 
         //将普通文件转为二进制流保存起来
-//        String pic = "/img/songPic/tubiao.jpg";
+        String pic = "/img/songPic/tubiao.jpg";
         String fileName = System.currentTimeMillis() + "-" + mpfile.getOriginalFilename();
         //得到项目根目录路径
         String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "song";
@@ -114,18 +114,60 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
         song.setCreateTime(new Date());
         song.setUpdateTime(new Date());
 
-//        song.setPic(pic);
+        song.setPic(pic);
         song.setUrl(storeUrlPath);
 
 //        song.setUrl("测试url");
 //        //图片测试
-        song.setPic("https://pic.netbian.com/uploads/allimg/230914/195054-1694692254c27f.jpg");
+//        song.setPic("https://pic.netbian.com/uploads/allimg/230914/195054-1694692254c27f.jpg");
         //插入到数据库
         int i = songMapper.insert(song);
         if (i > 0) {
             return R.success("添加成功");
         } else {
             return R.success("添加失败");
+        }
+
+    }
+
+    /**
+     * @param urlFile 上传的图片文件
+     * @param id      歌曲id
+     * @return
+     */
+    @Override
+    public R updateSongPic(MultipartFile urlFile, int id) {
+        //将图片保存到服务端
+        String fileName = System.currentTimeMillis() + "-" + urlFile.getOriginalFilename();
+        //得到项目根路径
+        String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "img" + System.getProperty("file.separator") + "songPic";
+        File file1 = new File(filePath);
+        if (!file1.exists()) {
+            if (!file1.mkdir()) {
+                return R.fatal("创建文件夹失败");
+            }
+        }
+        //在相应目录下创建文件
+        File dest = new File(filePath + System.getProperty("file.separator") +
+                fileName);
+        String storeUrlPath = "/img/songPic/" + fileName;
+        try {
+            urlFile.transferTo(dest);
+            System.out.println("文件存储路径：" + dest.getAbsolutePath());
+        } catch (IOException e) {
+            return R.fatal("上传失败" + e.getMessage());
+        }
+        //更新图片中的地址
+        Song song = new Song();
+        song.setId(id);
+        //song.setPic(ossPath);
+        song.setPic(storeUrlPath);
+        //设置更新的时间位系统当前时间
+        song.setUpdateTime(new Date());
+        if (songMapper.updateById(song) > 0) {
+            return R.success("上传成功", storeUrlPath);
+        } else {
+            return R.error("上传失败");
         }
 
     }
