@@ -131,6 +131,7 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
     }
 
     /**
+     * 更新图片
      * @param urlFile 上传的图片文件
      * @param id      歌曲id
      * @return

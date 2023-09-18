@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 /**
  * admin-歌单管理接口（service层接口实现类）
  */
@@ -45,6 +46,10 @@ public class SongListServiceImpl extends ServiceImpl<SongListMapper, SongList> i
         SongList songList = new SongList();
         //属性复制
         BeanUtils.copyProperties(addSongListRequest, songList);
+        //给出默认头像,后续管理员可以在线修改
+        String pic = "/img/songListPic/default.jpg";
+        songList.setPic(pic);
+        //将数据插入数据库
         if (songListMapper.insert(songList) > 0) {
             return R.success("添加成功");
         } else {
@@ -57,11 +62,18 @@ public class SongListServiceImpl extends ServiceImpl<SongListMapper, SongList> i
      * @return
      */
     public R deleteSongList(Integer id) {
-        if (songListMapper.deleteById(id) > 0) {
-            return R.success("删除成功");
-        } else {
-            return R.error("删除失败");
+        // 先判断服务端的数据是否存在
+        SongList obj = songListMapper.selectById(id);
+        if (obj==null){
+            return R.success("数据不存在");
+        }else {
+            if (songListMapper.deleteById(id) > 0) {
+                return R.success("删除成功");
+            } else {
+                return R.error("删除失败");
+            }
         }
+
     }
 
     /**
@@ -71,16 +83,21 @@ public class SongListServiceImpl extends ServiceImpl<SongListMapper, SongList> i
      */
     @Override
     public R updateSongList(SongListRequest updateSongListRequest) {
-        SongList songList = new SongList();
-        //属性复制
-        BeanUtils.copyProperties(updateSongListRequest, songList);
-        if (songListMapper.updateById(songList)>0){
-            return R.success("更新成功");
-        }else {
-            return R.success("更新失败");
+        // 先判断服务端的数据是否存在
+        SongList obj = songListMapper.selectById(updateSongListRequest.getId());
+        if (obj==null){
+            return R.success("数据不存在");
+        }else{
+            SongList songList = new SongList();
+            //属性复制
+            BeanUtils.copyProperties(updateSongListRequest, songList);
+            if (songListMapper.updateById(songList)>0){
+                return R.success("更新成功");
+            }else {
+                return R.success("更新失败");
+            }
         }
 
     }
-
 
 }
