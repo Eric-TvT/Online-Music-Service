@@ -1,10 +1,11 @@
 package com.example.onlinemusicservice.controller;
 
 import com.example.onlinemusicservice.common.R;
+import com.example.onlinemusicservice.model.request.SongListRequest;
 import com.example.onlinemusicservice.service.SongListService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 /**
  * admin-歌单管理控制类（Controller层）
  */
@@ -20,7 +21,31 @@ public class SongListController {
      * @return
      */
     @GetMapping("/songList")
-    public R songList() {
-        return songListService.songList();
+    public R songList(@RequestParam(required = false) String style) {
+        return songListService.songList(style);
+    }
+    /**
+     * 添加歌单
+     */
+    @PostMapping("/songList/add")
+    public R addSongList(@RequestBody SongListRequest addSongListRequest){
+        return songListService.addSongList(addSongListRequest);
+    }
+    /**
+     * 删除歌单------当个删除和批量删除调用多个单个删除
+     */
+    @GetMapping("/songList/delete")
+    public R deleteSongList(int id){
+        return songListService.deleteSongList(id);
+    }
+
+    /**
+     * 更新歌单
+     * @param updateSongListRequest
+     * @return
+     */
+    @PostMapping("/songList/update")
+    public R updateSongList(@RequestBody SongListRequest updateSongListRequest){
+        return songListService.updateSongList(updateSongListRequest);
     }
 }
