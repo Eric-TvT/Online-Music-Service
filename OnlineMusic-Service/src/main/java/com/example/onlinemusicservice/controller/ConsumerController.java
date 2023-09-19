@@ -54,4 +54,17 @@ public class ConsumerController {
     public R deleteUsers(@RequestParam String[] id) {
         return consumerService.deleteUsers(id);
     }
+
+
+
+    /**
+     * 根据id查询用户(评论)
+     * @param id
+     * @return
+     */
+    // http://localhost:8888/user/detail?id=1
+    @GetMapping("/user/detail")
+    public R userDetail(@RequestParam int id){
+        return consumerService.userDetail(id);
+    }
 }

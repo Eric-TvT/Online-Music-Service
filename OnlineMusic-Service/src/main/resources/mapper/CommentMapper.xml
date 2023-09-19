@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.onlinemusicservice.mapper.CommentMapper">
+    <resultMap id="BaseResultMap" type="com.example.onlinemusicservice.model.domain.Comment">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="user_id" property="userId" jdbcType="VARCHAR" />
+        <result column="song_id" property="songId" jdbcType="VARCHAR" />
+        <result column="song_list_id" property="songListId" jdbcType="VARCHAR" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="type" property="type" jdbcType="TINYINT" />
+        <result column="up" property="up" jdbcType="INTEGER" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_id, song_id, song_list_id, create_time,type,up
+    </sql>
+    <!-- 根据歌单id获取评论列表 -->
+    <select id="selectCommentListBySongListId"
+            resultType="com.example.onlinemusicservice.model.response.CommentResponse">
+        select c.id, c.user_id, c.song_id, c.song_list_id, c.content, c.create_time, c.type, c.up, u.username as userName
+        from `comment` c, `consumer` u
+        where c.user_id = u.id
+          and c.song_list_id = #{songListId}
+    </select>
+</mapper>

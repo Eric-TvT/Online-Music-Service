@@ -31,6 +31,14 @@ public interface ConsumerService extends IService<Consumer> {
      */
     R deleteUsers(String[] ids);
 
+    /**
+     * 歌单id用户评论
+     * @param id
+     * @return
+     */
+
+     R userDetail(int id);
+
 }
 
 

@@ -1,5 +1,6 @@
 package com.example.onlinemusicservice.service.Impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.onlinemusicservice.common.R;
@@ -57,6 +58,18 @@ public class ConsumerServiceImpl extends ServiceImpl<ConsumerMapper, Consumer> i
         } else {
             return R.error("删除失败");
         }
+    }
+
+    /**
+     * 歌单id用户评论
+     * @param id
+     * @return
+     */
+    @Override
+    public R userDetail(int id) {
+        QueryWrapper queryWrapper = new QueryWrapper();
+        queryWrapper.eq("id",id);
+        return R.success("查询成功",consumerMapper.selectList(queryWrapper));
     }
 
 
