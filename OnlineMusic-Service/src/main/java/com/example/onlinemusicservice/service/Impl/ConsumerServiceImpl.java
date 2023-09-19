@@ -72,6 +72,15 @@ public class ConsumerServiceImpl extends ServiceImpl<ConsumerMapper, Consumer> i
         return R.success("查询成功",consumerMapper.selectList(queryWrapper));
     }
 
+    /**
+     * 首页用户模型显示
+     * @return
+     */
+    @Override
+    public R allUser() {
+        return R.success(null, consumerMapper.selectList(null));
+    }
+
 
 }
 

@@ -48,4 +48,10 @@ public interface SongService extends IService<Song> {
      */
     public R updateSongPic(MultipartFile urlFile, int id);
 
+    /**
+     * 首页歌曲总数
+     * @return
+     */
+    public R allSong();
+
 }

@@ -55,8 +55,6 @@ public class ConsumerController {
         return consumerService.deleteUsers(id);
     }
 
-
-
     /**
      * 根据id查询用户(评论)
      * @param id
@@ -66,5 +64,14 @@ public class ConsumerController {
     @GetMapping("/user/detail")
     public R userDetail(@RequestParam int id){
         return consumerService.userDetail(id);
+    }
+
+    /**
+     * 首页模块查询用户数据
+     * @return
+     */
+    @GetMapping("/users")
+    public R allUser(){
+        return consumerService.allUser();
     }
 }

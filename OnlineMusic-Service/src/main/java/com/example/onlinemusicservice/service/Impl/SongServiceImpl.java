@@ -172,6 +172,14 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
         }
 
     }
+    /**
+     * 首页歌曲总数
+     * @return
+     */
+    @Override
+    public R allSong() {
+        return R.success(null, songMapper.selectList(null));
+    }
 
 
 }

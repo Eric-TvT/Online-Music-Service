@@ -86,4 +86,13 @@ public class SongController {
         return songService.updateSongPic(urlFile, id);
     }
 
+    /**
+     * 首页歌曲总数
+     * @return
+     */
+    @GetMapping("/song")
+    public R allSong(){
+        return songService.allSong();
+    }
+
 }

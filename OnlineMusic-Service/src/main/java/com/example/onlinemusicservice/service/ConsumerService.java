@@ -39,6 +39,11 @@ public interface ConsumerService extends IService<Consumer> {
 
      R userDetail(int id);
 
+    /**
+     * 首页用户用户模型显示
+     * @return
+     */
+     R allUser();
 }
 
 
