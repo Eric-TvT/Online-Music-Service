@@ -86,8 +86,8 @@ public class SongController {
         return songService.updateSongPic(urlFile, id);
     }
 
-    /**TODO 用户端  这块就是前端显现相应的歌单list
-     * 首页歌曲总数
+    /**
+     *  TODO admin-首页歌曲总数
      * @return
      */
     @GetMapping("/song")
@@ -95,7 +95,9 @@ public class SongController {
         return songService.allSong();
     }
 
-    /**
+
+
+    /**TODO 用户端  这块就是前端显现相应的歌单list
      * 用户端首页搜歌曲（模糊）
      * 根据name查询歌曲信息
      * @param name
