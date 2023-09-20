@@ -172,7 +172,7 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
         }
 
     }
-    /**
+    /**TODO 用户端  这块就是前端显现相应的歌单lis
      * 首页歌曲总数
      * @return
      */
@@ -180,7 +180,12 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
     public R allSong() {
         return R.success(null, songMapper.selectList(null));
     }
-
+    /**
+     * 用户端首页搜歌曲（模糊）
+     * 根据name查询歌曲信息
+     * @param name
+     * @return
+     */
     @Override
     public R songOfSingerName(String name) {
         QueryWrapper<Song> queryWrapper = new QueryWrapper<>();

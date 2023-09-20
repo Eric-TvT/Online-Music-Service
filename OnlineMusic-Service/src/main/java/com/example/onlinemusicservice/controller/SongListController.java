@@ -50,15 +50,29 @@ public class SongListController {
     }
 
     /**
-     * 根据title查询歌单信息
-     *
-     * @param
+     * TODO 这块就是前端显现相应的歌单list
+     * 前后联调首页中歌单搜索栏功能 // 返回标题包含文字的歌单
+     * @param title
      * @return
      */
     @GetMapping("/songList/likeTitle/detail")
-    public R likeTitle(@RequestParam String title) {
-        return null;
+    public R songListOfLikeTitle(@RequestParam String title) {
+        return songListService.likeTitle('%' + title + '%');
     }
+
+    /**
+     * 客户端 关键字查询
+     * @param style
+     * @return
+     */
+    // 返回指定类型的歌单
+//    @GetMapping("/songList/style/detail")
+//    public R songListOfStyle(@RequestParam String style) {
+//        return songListService.likeStyle('%' + style + '%');
+//    }
+
+
+
 
 
 

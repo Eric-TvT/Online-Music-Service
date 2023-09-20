@@ -99,5 +99,25 @@ public class SongListServiceImpl extends ServiceImpl<SongListMapper, SongList> i
         }
 
     }
+    /**
+     * TODO 这块就是前端显现相应的歌单list
+     * 前后联调首页中歌单搜索栏功能 // 返回标题包含文字的歌单
+     * @param title
+     * @return
+     */
+    @Override
+    public R likeTitle(String title) {
+        QueryWrapper<SongList> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("title",title);
+        return R.success(null, songListMapper.selectList(queryWrapper));
+    }
+
+//    @Override
+//    public R likeStyle(String style) {
+//        QueryWrapper<SongList> queryWrapper = new QueryWrapper<>();
+//        queryWrapper.like("style",style);
+//        return R.success(null, songListMapper.selectList(queryWrapper));
+//
+//    }
 
 }

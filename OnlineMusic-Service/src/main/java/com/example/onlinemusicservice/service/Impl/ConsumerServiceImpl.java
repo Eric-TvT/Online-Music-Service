@@ -151,6 +151,25 @@ public class ConsumerServiceImpl extends ServiceImpl<ConsumerMapper, Consumer> i
         }
     }
 
+    /**
+     * 用户个人信息更新为实现
+     * @param updateConsumerRequest
+     * @return
+     */
+    @Override
+    public R updateUser(ConsumerRequest updateConsumerRequest) {
+        Consumer consumer = new Consumer();
+        BeanUtils.copyProperties(updateConsumerRequest, consumer);
+        int i =consumerMapper.updateById(consumer);
+        if ( i > 0) {
+            return R.success("修改成功");
+        } else {
+            return R.error("修改失败");
+        }
+
+
+    }
+
 
 }
 

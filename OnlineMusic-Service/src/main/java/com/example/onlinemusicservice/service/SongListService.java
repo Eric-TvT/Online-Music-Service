@@ -29,5 +29,14 @@ public interface SongListService {
      */
     public R updateSongList(SongListRequest updateSongListRequest);
 
+    /**
+     * TODO 用户端
+     * 模糊查询搜索歌单
+     * @param title
+     * @return
+     */
+    public R likeTitle(String title);
+
+//    public R likeStyle(String style);
 
 }

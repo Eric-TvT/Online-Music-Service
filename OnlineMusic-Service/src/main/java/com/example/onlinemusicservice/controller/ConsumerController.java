@@ -87,16 +87,32 @@ public class ConsumerController {
         //登录成功的话，返回中需要包含token信息
         if(result.getSuccess()){
             String tokenStr = JwtUtils.generateToken(consumerRequest.getUsername());
-//            Result token = new Result();
-//            token.setAuthorization(tokenStr);
-//            token.setObj(result.getData());
             result.setData(tokenStr);
         }
         return result;
 
     }
+
+    /**
+     * 用户注册
+     * @param consumerRequest
+     * @return
+     */
     @PostMapping("/user/add")
     public R addUser(@RequestBody ConsumerRequest consumerRequest){
         return consumerService.addUser(consumerRequest);
     }
+
+
+    /**
+     * TODO 前后台界面的调用
+     * 更新用户信息---为实现
+     * @param updateConsumerRequest
+     * @return
+     */
+    @PostMapping("/user/update")
+    public R updateUserMsg(@RequestBody ConsumerRequest updateConsumerRequest) {
+        return consumerService.updateUser(updateConsumerRequest);
+    }
+
 }

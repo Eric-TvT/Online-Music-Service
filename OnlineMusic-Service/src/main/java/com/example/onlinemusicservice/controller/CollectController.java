@@ -19,6 +19,7 @@ public class CollectController {
      */
     @GetMapping("/collection/detail")
     public R collectionOfUser(@RequestParam Integer userId) {
+
         return collectService.collectionOfUser(userId);
     }
 }

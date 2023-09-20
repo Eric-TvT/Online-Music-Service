@@ -42,8 +42,11 @@ public interface ConsumerService extends IService<Consumer> {
 
     public R userDetail(int id);
 
+
+
+
     /**
-     * 首页用户用户模型显示
+     * TOO 首页用户用户模型显示
      * @return
      */
     public R allUser();
@@ -62,6 +65,13 @@ public interface ConsumerService extends IService<Consumer> {
      * @return
      */
     R addUser(ConsumerRequest addConsumerRequest);
+
+    /**
+     * 用户个人信息更新为实现
+     * @param updateConsumerRequest
+     * @return
+     */
+    public R updateUser(ConsumerRequest updateConsumerRequest);
 
 }
 
