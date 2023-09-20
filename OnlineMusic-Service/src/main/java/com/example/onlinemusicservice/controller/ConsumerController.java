@@ -2,14 +2,15 @@ package com.example.onlinemusicservice.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.example.onlinemusicservice.common.JwtUtils;
 import com.example.onlinemusicservice.common.R;
 import com.example.onlinemusicservice.model.domain.Consumer;
+import com.example.onlinemusicservice.model.request.ConsumerRequest;
 import com.example.onlinemusicservice.service.ConsumerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * admin-用户管理控制类（controller层）
@@ -73,5 +74,25 @@ public class ConsumerController {
     @GetMapping("/users")
     public R allUser(){
         return consumerService.allUser();
+    }
+
+
+    /**
+     * TODO 前台页面调用 登录
+     * 登录判断
+     */
+    @PostMapping("/user/login/status")
+    public R loginStatus(@RequestBody ConsumerRequest consumerRequest, HttpSession session) {
+        R result =consumerService.loginStatus(consumerRequest,session);
+        //登录成功的话，返回中需要包含token信息
+        if(result.getSuccess()){
+            String tokenStr = JwtUtils.generateToken(consumerRequest.getUsername());
+//            Result token = new Result();
+//            token.setAuthorization(tokenStr);
+//            token.setObj(result.getData());
+            result.setData(tokenStr);
+        }
+        return result;
+
     }
 }

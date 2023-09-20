@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.onlinemusicservice.common.R;
 import com.example.onlinemusicservice.model.domain.Consumer;
+import com.example.onlinemusicservice.model.request.ConsumerRequest;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * admin-用户管理（service层接口）
@@ -14,7 +17,7 @@ public interface ConsumerService extends IService<Consumer> {
      * @param page
      * @return
      */
-    R allUser(IPage page);
+    public R allUser(IPage page);
 
 
     /**
@@ -22,14 +25,14 @@ public interface ConsumerService extends IService<Consumer> {
      * @param id
      * @return
      */
-    R deleteUser(Integer id);
+    public R deleteUser(Integer id);
 
     /**
      * 批量删除用户接口
      * @param ids
      * @return
      */
-    R deleteUsers(String[] ids);
+    public R deleteUsers(String[] ids);
 
     /**
      * 歌单id用户评论
@@ -37,13 +40,21 @@ public interface ConsumerService extends IService<Consumer> {
      * @return
      */
 
-     R userDetail(int id);
+    public R userDetail(int id);
 
     /**
      * 首页用户用户模型显示
      * @return
      */
-     R allUser();
+    public R allUser();
+
+    /**
+     * 用户登入
+     * @param consumerRequest
+     * @param session
+     * @return
+     */
+    public R  loginStatus(ConsumerRequest consumerRequest, HttpSession session);
 }
 
 

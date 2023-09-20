@@ -6,9 +6,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.onlinemusicservice.common.R;
 import com.example.onlinemusicservice.mapper.ConsumerMapper;
 import com.example.onlinemusicservice.model.domain.Consumer;
+import com.example.onlinemusicservice.model.request.ConsumerRequest;
 import com.example.onlinemusicservice.service.ConsumerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * admin -用户管理（service层接口实现类）
@@ -79,6 +82,31 @@ public class ConsumerServiceImpl extends ServiceImpl<ConsumerMapper, Consumer> i
     @Override
     public R allUser() {
         return R.success(null, consumerMapper.selectList(null));
+    }
+
+    /**
+     * 用户登入
+     * @param consumerRequest
+     * @param session
+     * @return
+     */
+    @Override
+    public R loginStatus(ConsumerRequest consumerRequest, HttpSession session) {
+        String username = consumerRequest.getUsername();
+        String password = consumerRequest.getPassword();
+        QueryWrapper<Consumer> queryWrapper =new QueryWrapper<>();
+        queryWrapper.eq("username",username);
+        queryWrapper.eq("password",password);
+        Long i =consumerMapper.selectCount(queryWrapper);
+        if (i > 0) {
+            //登录成功
+            session.setAttribute("username",username);
+            return R.success("登录成功",consumerMapper.selectList(queryWrapper));
+        }else {
+            //登录失败
+            return R.error("用户名或密码错误");
+        }
+
     }
 
 
