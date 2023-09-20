@@ -54,4 +54,11 @@ public interface SongService extends IService<Song> {
      */
     public R allSong();
 
+    /**
+     * 根据歌手名称查询歌曲
+     * @param name
+     * @return
+     */
+    public R songOfSingerName(String name);
+
 }

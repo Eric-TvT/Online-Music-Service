@@ -49,6 +49,17 @@ public class SongListController {
         return songListService.updateSongList(updateSongListRequest);
     }
 
+    /**
+     * 根据title查询歌单信息
+     *
+     * @param
+     * @return
+     */
+    @GetMapping("/songList/likeTitle/detail")
+    public R likeTitle(@RequestParam String title) {
+        return null;
+    }
+
 
 
 }

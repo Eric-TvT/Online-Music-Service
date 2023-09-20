@@ -181,5 +181,12 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
         return R.success(null, songMapper.selectList(null));
     }
 
+    @Override
+    public R songOfSingerName(String name) {
+        QueryWrapper<Song> queryWrapper = new QueryWrapper<>();
+        queryWrapper.like("name",name);
+        return R.success("查询成功",songMapper.selectList(queryWrapper));
+    }
+
 
 }

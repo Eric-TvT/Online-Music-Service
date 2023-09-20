@@ -95,4 +95,15 @@ public class SongController {
         return songService.allSong();
     }
 
+    /**
+     * 根据name查询歌曲信息
+     *
+     * @param name
+     * @return
+     */
+    @GetMapping("/song/singerName/detail")
+    public R songOfSingerName(@RequestParam String name) {
+        return songService.songOfSingerName(name);
+    }
+
 }
