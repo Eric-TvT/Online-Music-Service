@@ -95,4 +95,8 @@ public class ConsumerController {
         return result;
 
     }
+    @PostMapping("/user/add")
+    public R addUser(@RequestBody ConsumerRequest consumerRequest){
+        return consumerService.addUser(consumerRequest);
+    }
 }

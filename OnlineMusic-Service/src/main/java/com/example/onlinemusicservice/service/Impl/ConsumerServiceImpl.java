@@ -2,16 +2,19 @@ package com.example.onlinemusicservice.service.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.onlinemusicservice.common.R;
 import com.example.onlinemusicservice.mapper.ConsumerMapper;
 import com.example.onlinemusicservice.model.domain.Consumer;
 import com.example.onlinemusicservice.model.request.ConsumerRequest;
 import com.example.onlinemusicservice.service.ConsumerService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 /**
  * admin -用户管理（service层接口实现类）
@@ -107,6 +110,45 @@ public class ConsumerServiceImpl extends ServiceImpl<ConsumerMapper, Consumer> i
             return R.error("用户名或密码错误");
         }
 
+    }
+
+    /**
+     * 用户注册
+     * @param addConsumerRequest
+     * @return
+     */
+    @Override
+    public R addUser(ConsumerRequest addConsumerRequest) {
+        //注册逻辑
+        //1.判断前端请求的数据中必填字段不能为空
+        String username = addConsumerRequest.getUsername();
+        String password = addConsumerRequest.getPassword();
+        Byte sex = addConsumerRequest.getSex();
+        Date birth = addConsumerRequest.getBirth();
+
+        if(StringUtils.isBlank(username) || StringUtils.isBlank(password) || sex ==null || birth ==null){
+            return R.error("请检查数据");
+        }
+        //2.检验不能存在重复用户名
+        QueryWrapper<Consumer> queryWrapper =new QueryWrapper<>();
+        queryWrapper.eq("username",username);
+        if(consumerMapper.selectCount(queryWrapper) >0 ){
+            return R.error("用户名重复");
+        }
+        //3.将前端请求的数据转换为数据库consumer对应的实体字段
+        Consumer consumer = new Consumer();
+        BeanUtils.copyProperties(addConsumerRequest, consumer);
+        //设置默认头像
+        consumer.setAvator("img/avatorImages/user.jpg");
+        //插入的时间为当前系统时间
+        consumer.setCreateTime(new Date());
+        consumer.setUpdateTime(new Date());
+        // 4.插入到数据库中
+        if (consumerMapper.insert(consumer) > 0) {
+            return R.success("注册成功");
+        } else {
+            return R.error("注册失败");
+        }
     }
 
 

@@ -55,6 +55,14 @@ public interface ConsumerService extends IService<Consumer> {
      * @return
      */
     public R  loginStatus(ConsumerRequest consumerRequest, HttpSession session);
+
+    /**
+     * 用户注册
+     * @param addConsumerRequest
+     * @return
+     */
+    R addUser(ConsumerRequest addConsumerRequest);
+
 }
 
 
