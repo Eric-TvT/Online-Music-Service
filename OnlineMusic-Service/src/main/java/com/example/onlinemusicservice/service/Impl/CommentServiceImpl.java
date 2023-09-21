@@ -16,6 +16,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Autowired
     CommentMapper commentMapper;
 
+    /**
+     * 歌单管理-评论管理
+     * @param songListId
+     * @return
+     */
     @Override
     public R commentListOfSongListId(int songListId) {
         return R.success("查询成功", commentMapper.selectCommentListBySongListId(songListId));
