@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.onlinemusicservice.common.JwtUtils;
 import com.example.onlinemusicservice.common.R;
+import com.example.onlinemusicservice.common.Result;
 import com.example.onlinemusicservice.model.domain.Consumer;
 import com.example.onlinemusicservice.model.request.ConsumerRequest;
 import com.example.onlinemusicservice.service.ConsumerService;
@@ -78,19 +79,24 @@ public class ConsumerController {
 
 
     /**
-     * TODO 前台页面调用 登录
+     * TODO 前台页面调用 用户登录
      * 登录判断
+     * @param consumerRequest
+     * @param session
      */
+
     @PostMapping("/user/login/status")
     public R loginStatus(@RequestBody ConsumerRequest consumerRequest, HttpSession session) {
-        R result =consumerService.loginStatus(consumerRequest,session);
-        //登录成功的话，返回中需要包含token信息
-        if(result.getSuccess()){
+        // 调用服务层的校验密码业务
+        R result = consumerService.loginStatus(consumerRequest, session);
+        if (result.getSuccess()) {
             String tokenStr = JwtUtils.generateToken(consumerRequest.getUsername());
-            result.setData(tokenStr);
+            Result token = new Result();
+            token.setAuthorization(tokenStr);
+            token.setObj(result.getData());
+            result.setData(token);
         }
         return result;
-
     }
 
     /**
