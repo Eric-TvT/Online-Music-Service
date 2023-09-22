@@ -1,0 +1,15 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.onlinemusicservice.mapper.RankListMapper">
+    <resultMap id="BaseResultMap" type="com.example.onlinemusicservice.model.domain.RankList">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="song_list_id" jdbcType="INTEGER" property="songListId" />
+        <result column="consumer_id" jdbcType="INTEGER" property="consumerId" />
+        <result column="score" jdbcType="INTEGER" property="score" />
+    </resultMap>
+<!--    add评价歌单-->
+    <sql id="Base_Column_List">
+        id, song_list_id, consumer_id,score
+    </sql>
+</mapper>

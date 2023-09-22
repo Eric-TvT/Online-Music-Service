@@ -61,15 +61,16 @@ public class SongListController {
     }
 
     /**
-     * 客户端 关键字查询
+     * 客户端 歌单根据风格查询
+     * 返回指定类型的歌单
      * @param style
      * @return
      */
-    // 返回指定类型的歌单
-//    @GetMapping("/songList/style/detail")
-//    public R songListOfStyle(@RequestParam String style) {
-//        return songListService.likeStyle('%' + style + '%');
-//    }
+    @GetMapping("/songList/style/detail")
+    public R songListOfStyle(@RequestParam  String style){
+        return songListService.songListOfStyle(style);
+    }
+
 
 
 

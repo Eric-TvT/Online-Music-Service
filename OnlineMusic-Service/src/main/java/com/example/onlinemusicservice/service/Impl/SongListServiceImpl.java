@@ -109,15 +109,22 @@ public class SongListServiceImpl extends ServiceImpl<SongListMapper, SongList> i
     public R likeTitle(String title) {
         QueryWrapper<SongList> queryWrapper = new QueryWrapper<>();
         queryWrapper.like("title",title);
-        return R.success(null, songListMapper.selectList(queryWrapper));
+        return R.success("查询成功", songListMapper.selectList(queryWrapper));
     }
-
-//    @Override
-//    public R likeStyle(String style) {
-//        QueryWrapper<SongList> queryWrapper = new QueryWrapper<>();
-//        queryWrapper.like("style",style);
-//        return R.success(null, songListMapper.selectList(queryWrapper));
-//
-//    }
+    /**
+     * 客户端 歌单根据风格查询
+     * 返回指定类型的歌单
+     * @param style
+     * @return
+     */
+    @Override
+    public R songListOfStyle(String style) {
+        QueryWrapper<SongList> queryWrapper = null;
+        if(!"全部歌单".equals(style)){
+            queryWrapper = new QueryWrapper<>();
+            queryWrapper.like("style",style);
+        }
+        return R.success("查询成功",songListMapper.selectList(queryWrapper));
+    }
 
 }

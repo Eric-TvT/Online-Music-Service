@@ -152,7 +152,7 @@ public class ConsumerServiceImpl extends ServiceImpl<ConsumerMapper, Consumer> i
     }
 
     /**
-     * 用户个人信息更新为实现
+     * 用户个人资料更新为实现
      * @param updateConsumerRequest
      * @return
      */
@@ -160,6 +160,8 @@ public class ConsumerServiceImpl extends ServiceImpl<ConsumerMapper, Consumer> i
     public R updateUser(ConsumerRequest updateConsumerRequest) {
         Consumer consumer = new Consumer();
         BeanUtils.copyProperties(updateConsumerRequest, consumer);
+        //设置修改时间为系统当前时间
+        consumer.setUpdateTime(new Date());
         int i =consumerMapper.updateById(consumer);
         if ( i > 0) {
             return R.success("修改成功");

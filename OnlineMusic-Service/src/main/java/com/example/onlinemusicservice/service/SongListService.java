@@ -36,7 +36,12 @@ public interface SongListService {
      * @return
      */
     public R likeTitle(String title);
-
-//    public R likeStyle(String style);
+    /**
+     * 客户端 歌单根据风格查询
+     * 返回指定类型的歌单
+     * @param style
+     * @return
+     */
+    public R songListOfStyle(String style);
 
 }
