@@ -76,9 +76,9 @@ public class SongController {
     }
 
     /**
-     * 更新图片
-     * @param urlFile
-     * @param id
+     * 更新歌曲 图片
+     * @param urlFile  上传的图片文件
+     * @param id 根据id
      * @return
      */
     @PostMapping("/song/img/update")

@@ -152,7 +152,7 @@ public class ConsumerServiceImpl extends ServiceImpl<ConsumerMapper, Consumer> i
     }
 
     /**
-     * 用户个人资料更新为实现
+     * 用户个人资料更新为实现-
      * @param updateConsumerRequest
      * @return
      */

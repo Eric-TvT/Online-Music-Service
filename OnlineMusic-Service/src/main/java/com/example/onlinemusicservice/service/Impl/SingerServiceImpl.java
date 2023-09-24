@@ -9,6 +9,10 @@ import com.example.onlinemusicservice.service.SingerService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * admin-歌手管理（service层接口实现类）
@@ -101,7 +105,47 @@ public class SingerServiceImpl extends ServiceImpl<SingerMapper, Singer> impleme
         }
     }
 
-
+    /**
+     * 更新歌手图片
+     * @param urlFile 上传的歌手图片
+     * @param id 歌手id
+     * @return
+     */
+    @Override
+    public R updateSingerPic(MultipartFile urlFile, int id) {
+        //将图片保存到服务端
+        String fileName = System.currentTimeMillis() + "-" + urlFile.getOriginalFilename();
+        //得到项目根路径
+        String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "img" + System.getProperty("file.separator") + "singerPic";
+        File file1 = new File(filePath);
+        if (!file1.exists()) {
+            if (!file1.mkdir()) {
+                return R.fatal("创建文件夹失败");
+            }
+        }
+        //在相应目录下创建文件
+        File dest = new File(filePath + System.getProperty("file.separator") + fileName);
+        String storeUrlPath = "/img/singerPic/" + fileName;
+        try {
+            urlFile.transferTo(dest);
+            System.out.println("文件存储路径：" + dest.getAbsolutePath());
+        } catch (IOException e) {
+            return R.fatal("上传失败" + e.getMessage());
+        }
+        //更新图片中的地址
+        Singer singer = new Singer();
+        singer.setId(id);
+        //song.setPic(ossPath);
+        singer.setPic(storeUrlPath);
+        //设置更新的时间位系统当前时间
+        //singer.setUpdateTime(new Date());
+        int i =singerMapper.updateById(singer);
+        if (i>0){
+            return R.success("上传成功", storeUrlPath);
+        } else {
+            return R.error("上传失败");
+        }
+    }
 
 
 }

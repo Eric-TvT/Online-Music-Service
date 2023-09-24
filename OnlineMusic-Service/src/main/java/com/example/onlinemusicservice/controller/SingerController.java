@@ -5,6 +5,7 @@ import com.example.onlinemusicservice.model.request.SingerRequest;
 import com.example.onlinemusicservice.service.SingerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * admin-歌手管理控制类（controller层）
@@ -13,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 public class SingerController {
     @Autowired
     private SingerService singerService;
+
+
+
 
     /**
      * 查询歌手
@@ -61,6 +65,17 @@ public class SingerController {
     @PostMapping("/singer/update")
     public R updateSinger(@RequestBody SingerRequest singerRequest){
         return singerService.updateSingerMsg(singerRequest);
+    }
+
+    /**
+     * 更新歌手图片
+     * @param urlFile  上传的歌手图片
+     * @param id 歌手id
+     * @return
+     */
+    @PostMapping("/singer/avatar/update")
+    public R updateSingerPic(@RequestParam("file") MultipartFile urlFile, @RequestParam("id") int id){
+        return singerService.updateSingerPic(urlFile,id);
     }
 }
 

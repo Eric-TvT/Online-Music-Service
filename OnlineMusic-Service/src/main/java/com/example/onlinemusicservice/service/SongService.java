@@ -41,12 +41,15 @@ public interface SongService extends IService<Song> {
     public R addSong(SongRequest addSongRequest, MultipartFile mpfile);
 
     /**
-     * 更新图片
+     * 更新歌曲图片
      * @param urlFile 上传的图片文件
      * @param id 歌曲id
      * @return
      */
     public R updateSongPic(MultipartFile urlFile, int id);
+
+
+
 
     /**TODO admin-首页歌曲总数s
      * 首页歌曲总数
