@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.onlinemusicservice.common.R;
 import com.example.onlinemusicservice.model.domain.Consumer;
 import com.example.onlinemusicservice.model.request.ConsumerRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 
@@ -67,12 +68,26 @@ public interface ConsumerService extends IService<Consumer> {
     R addUser(ConsumerRequest addConsumerRequest);
 
     /**
-     * 用户个人信息更新为实现
+     * 用户个人资料更新实现
      * @param updateConsumerRequest
      * @return
      */
     public R updateUser(ConsumerRequest updateConsumerRequest);
 
+    /**
+     * 用户个人密码更新
+     * @param updateConsumerRequest
+     * @return
+     */
+    public R updateUserPassword(ConsumerRequest updateConsumerRequest);
+
+    /**
+     * 用户个人图片更新
+     * @param urlFile
+     * @param id
+     * @return
+     */
+    public R updateUserPic(MultipartFile urlFile, int id);
 }
 
 

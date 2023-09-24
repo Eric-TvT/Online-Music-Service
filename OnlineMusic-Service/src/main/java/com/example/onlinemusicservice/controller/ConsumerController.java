@@ -10,6 +10,7 @@ import com.example.onlinemusicservice.model.request.ConsumerRequest;
 import com.example.onlinemusicservice.service.ConsumerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
 
@@ -68,6 +69,9 @@ public class ConsumerController {
         return consumerService.userDetail(id);
     }
 
+
+
+
     /**
      * 首页模块查询用户数据
      * @return
@@ -100,7 +104,7 @@ public class ConsumerController {
     }
 
     /**
-     * 用户注册
+     * TODO 用户注册
      * @param consumerRequest
      * @return
      */
@@ -112,7 +116,7 @@ public class ConsumerController {
 
     /**
      * TODO 前后台界面的调用
-     * 更新用户信息---为实现
+     * 更新用户个人资料实现
      * @param updateConsumerRequest
      * @return
      */
@@ -121,4 +125,24 @@ public class ConsumerController {
         return consumerService.updateUser(updateConsumerRequest);
     }
 
+    /**
+     * 用户个人密码更新
+     * @param consumerRequest
+     * @return
+     */
+    @PostMapping("/user/updatePassword")
+    public R updateUserPassword(@RequestBody ConsumerRequest consumerRequest){
+        return consumerService.updateUserPassword(consumerRequest);
+    }
+
+    /**
+     * 用户个人图片更新
+     * @param urlFile
+     * @param id
+     * @return
+     */
+    @PostMapping("/user/avatar/update")
+    public R updateUserPic(@RequestParam("file") MultipartFile urlFile, @RequestParam("id") int id){
+        return consumerService.updateUserPic(urlFile,id);
+    }
 }

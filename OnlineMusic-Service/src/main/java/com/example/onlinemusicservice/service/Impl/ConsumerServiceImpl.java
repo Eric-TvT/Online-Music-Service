@@ -12,8 +12,11 @@ import com.example.onlinemusicservice.service.ConsumerService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -152,7 +155,7 @@ public class ConsumerServiceImpl extends ServiceImpl<ConsumerMapper, Consumer> i
     }
 
     /**
-     * 用户个人资料更新为实现-
+     * 用户个人资料更新
      * @param updateConsumerRequest
      * @return
      */
@@ -164,6 +167,69 @@ public class ConsumerServiceImpl extends ServiceImpl<ConsumerMapper, Consumer> i
         consumer.setUpdateTime(new Date());
         int i =consumerMapper.updateById(consumer);
         if ( i > 0) {
+            return R.success("修改成功");
+        } else {
+            return R.error("修改失败");
+        }
+
+
+    }
+
+    /**
+     * 用户个人密码更新
+     * @param updateConsumerRequest
+     * @return
+     */
+    @Override
+    public R updateUserPassword(ConsumerRequest updateConsumerRequest) {
+        Consumer consumer = new Consumer();
+        BeanUtils.copyProperties(updateConsumerRequest, consumer);
+        //设置修改时间为系统当前时间
+        consumer.setUpdateTime(new Date());
+        int i  =consumerMapper.updateById(consumer);
+        if (i > 0){
+            return R.success("修改成功");
+        } else {
+            return R.error("修改失败");
+        }
+    }
+    /**
+     * 用户个人图片更新
+     * @param urlFile
+     * @param id
+     * @return
+     */
+    @Override
+    public R updateUserPic(MultipartFile urlFile, int id) {
+        //将图片保存到服务端
+        String fileName = System.currentTimeMillis() + "-" + urlFile.getOriginalFilename();
+        //得到项目根路径
+        String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "img" + System.getProperty("file.separator") + "avatorImages";
+        File file1 = new File(filePath);
+        if (!file1.exists()) {
+            if (!file1.mkdir()) {
+                return R.fatal("创建文件夹失败");
+            }
+        }
+        //在相应目录下创建文件
+        File dest = new File(filePath + System.getProperty("file.separator") + fileName);
+        String storeUrlPath = "/img/avatorImages/" + fileName;
+        try {
+            urlFile.transferTo(dest);
+            System.out.println("文件存储路径：" + dest.getAbsolutePath());
+        } catch (IOException e) {
+            return R.fatal("上传失败" + e.getMessage());
+        }
+        //更新图片中的地址
+        Consumer consumer = new Consumer();
+        consumer.setId(id);
+        //song.setPic(ossPath);
+        consumer.setAvator(storeUrlPath);
+        //设置修改的时间为系统当前时间
+        consumer.setUpdateTime(new Date());
+
+        int i =consumerMapper.updateById(consumer);
+        if (i>0){
             return R.success("修改成功");
         } else {
             return R.error("修改失败");
