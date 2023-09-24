@@ -5,6 +5,7 @@ import com.example.onlinemusicservice.model.request.SongListRequest;
 import com.example.onlinemusicservice.service.SongListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * admin-歌单管理控制类（Controller层）
@@ -48,6 +49,20 @@ public class SongListController {
     public R updateSongList(@RequestBody SongListRequest updateSongListRequest){
         return songListService.updateSongList(updateSongListRequest);
     }
+
+    /**
+     * 更新歌单图片
+     * @param urlFile 上传的歌单图片
+     * @param id 歌单id
+     * @return
+     */
+    @PostMapping("/songList/img/update")
+    public R updateSongListPic(@RequestParam("file") MultipartFile urlFile, @RequestParam("id") int id){
+        return songListService.updateSongListPic(urlFile,id);
+    }
+
+
+
 
     /**
      * TODO 这块就是前端显现相应的歌单list

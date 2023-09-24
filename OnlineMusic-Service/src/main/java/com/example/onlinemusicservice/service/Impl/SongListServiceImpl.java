@@ -11,6 +11,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * admin-歌单管理接口（service层接口实现类）
@@ -99,6 +103,49 @@ public class SongListServiceImpl extends ServiceImpl<SongListMapper, SongList> i
         }
 
     }
+
+    /**
+     * 更新歌单图片
+     * @param urlFile 上传的歌单图片
+     * @param id 歌单id
+     * @return
+     */
+    @Override
+    public R updateSongListPic(MultipartFile urlFile, int id) {
+        //将图片保存到服务端
+        String fileName = System.currentTimeMillis() + "-" + urlFile.getOriginalFilename();
+        //得到项目根路径
+        String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "img" + System.getProperty("file.separator") + "songListPic";
+        File file1 = new File(filePath);
+        if (!file1.exists()) {
+            if (!file1.mkdir()) {
+                return R.fatal("创建文件夹失败");
+            }
+        }
+        //在相应目录下创建文件
+        File dest = new File(filePath + System.getProperty("file.separator") + fileName);
+        String storeUrlPath = "/img/songListPic/" + fileName;
+        try {
+            urlFile.transferTo(dest);
+            System.out.println("文件存储路径：" + dest.getAbsolutePath());
+        } catch (IOException e) {
+            return R.fatal("上传失败" + e.getMessage());
+        }
+        //更新图片中的地址
+        SongList songList = new SongList();
+        songList.setId(id);
+        //song.setPic(ossPath);
+        songList.setPic(storeUrlPath);
+
+        int i =songListMapper.updateById(songList);
+
+        if (i>0){
+            return R.success("上传成功", storeUrlPath);
+        } else {
+            return R.error("上传失败");
+        }
+    }
+
     /**
      * TODO 这块就是前端显现相应的歌单list
      * 前后联调首页中歌单搜索栏功能 // 返回标题包含文字的歌单
