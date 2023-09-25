@@ -6,6 +6,7 @@ import com.example.onlinemusicservice.common.R;
 import com.example.onlinemusicservice.mapper.SongMapper;
 import com.example.onlinemusicservice.model.domain.Song;
 import com.example.onlinemusicservice.model.request.SongRequest;
+import com.example.onlinemusicservice.service.ObjectStoreService;
 import com.example.onlinemusicservice.service.SongService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,11 @@ import java.util.Date;
 public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements SongService {
     @Autowired
     private SongMapper songMapper;
+    /**
+     * TODO 阿里云服务
+     */
+    @Autowired
+    private ObjectStoreService oss;
 
     @Override
     public R selectSongsBySingerId(int singerId) {
@@ -80,6 +86,7 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
     }
 
     /**
+     * 添加歌曲
      * @param addSongRequest
      * @param mpfile         表示文件二进制流
      * @return
@@ -140,33 +147,46 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
     public R updateSongPic(MultipartFile urlFile, int id) {
         //将图片保存到服务端
         String fileName = System.currentTimeMillis() + "-" + urlFile.getOriginalFilename();
+        //TODO 歌曲图片保存到本地
         //得到项目根路径
-        String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "img" + System.getProperty("file.separator") + "songPic";
-        File file1 = new File(filePath);
-        if (!file1.exists()) {
-            if (!file1.mkdir()) {
-                return R.fatal("创建文件夹失败");
-            }
-        }
-        //在相应目录下创建文件
-        File dest = new File(filePath + System.getProperty("file.separator") +
-                fileName);
-        String storeUrlPath = "/img/songPic/" + fileName;
+        //        String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "img" + System.getProperty("file.separator") + "songPic";
+        //        File file1 = new File(filePath);
+        //        if (!file1.exists()) {
+        //            if (!file1.mkdir()) {
+        //                return R.fatal("创建文件夹失败");
+        //            }
+        //        }
+        //        //在相应目录下创建文件
+        //        File dest = new File(filePath + System.getProperty("file.separator") +
+        //                fileName);
+        //        String storeUrlPath = "/img/songPic/" + fileName;
+        //        try {
+        //            urlFile.transferTo(dest);
+        //            System.out.println("文件存储路径：" + dest.getAbsolutePath());
+        //        } catch (IOException e) {
+        //            return R.fatal("上传失败" + e.getMessage());
+        //        }
+
+        //TODO  歌曲图片保存到阿里云
+        File dest = new File(fileName + System.getProperty("file.separator") + fileName);
+        String imgPath = "img/songPic";
+        // 使用阿里云对象存储服务替换原来的存储在本地的流程
+        String ossFilePath;
         try {
-            urlFile.transferTo(dest);
-            System.out.println("文件存储路径：" + dest.getAbsolutePath());
+            ossFilePath = oss.uploadFile(imgPath, fileName, urlFile);
         } catch (IOException e) {
             return R.fatal("上传失败" + e.getMessage());
         }
+
         //更新图片中的地址
         Song song = new Song();
         song.setId(id);
-        //song.setPic(ossPath);
-        song.setPic(storeUrlPath);
+        song.setPic(ossFilePath);
+        //song.setPic(storeUrlPath);
         //设置更新的时间位系统当前时间
         song.setUpdateTime(new Date());
         if (songMapper.updateById(song) > 0) {
-            return R.success("上传成功", storeUrlPath);
+            return R.success("上传成功", ossFilePath);
         } else {
             return R.error("上传失败");
         }

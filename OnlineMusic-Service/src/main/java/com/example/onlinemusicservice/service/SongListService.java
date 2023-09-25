@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 public interface SongListService {
     /**
      * 查询歌单列表
-     *
      * @return
      */
     public R songList(String style);

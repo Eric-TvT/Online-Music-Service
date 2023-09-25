@@ -6,6 +6,7 @@ import com.example.onlinemusicservice.common.R;
 import com.example.onlinemusicservice.mapper.SongListMapper;
 import com.example.onlinemusicservice.model.domain.SongList;
 import com.example.onlinemusicservice.model.request.SongListRequest;
+import com.example.onlinemusicservice.service.ObjectStoreService;
 import com.example.onlinemusicservice.service.SongListService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -23,6 +24,12 @@ import java.io.IOException;
 public class SongListServiceImpl extends ServiceImpl<SongListMapper, SongList> implements SongListService {
     @Autowired
     private SongListMapper songListMapper;
+    /**
+     * TODO 阿里云服务
+     */
+    @Autowired
+    private ObjectStoreService  oss;
+
     /**
      * 查询歌单列表
      *
@@ -51,7 +58,7 @@ public class SongListServiceImpl extends ServiceImpl<SongListMapper, SongList> i
         //属性复制
         BeanUtils.copyProperties(addSongListRequest, songList);
         //给出默认头像,后续管理员可以在线修改
-        String pic = "/img/songListPic/default.jpg";
+        String pic = "https://online-music-development.oss-cn-guangzhou.aliyuncs.com/img/songPic/1695650697609-1695000676484-1694749991636-ruguoai1.jpg";
         songList.setPic(pic);
         //将数据插入数据库
         if (songListMapper.insert(songList) > 0) {
@@ -114,33 +121,47 @@ public class SongListServiceImpl extends ServiceImpl<SongListMapper, SongList> i
     public R updateSongListPic(MultipartFile urlFile, int id) {
         //将图片保存到服务端
         String fileName = System.currentTimeMillis() + "-" + urlFile.getOriginalFilename();
+        //TODO  将歌单图片保存的本地
         //得到项目根路径
-        String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "img" + System.getProperty("file.separator") + "songListPic";
-        File file1 = new File(filePath);
-        if (!file1.exists()) {
-            if (!file1.mkdir()) {
-                return R.fatal("创建文件夹失败");
-            }
-        }
-        //在相应目录下创建文件
-        File dest = new File(filePath + System.getProperty("file.separator") + fileName);
-        String storeUrlPath = "/img/songListPic/" + fileName;
+        //        String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "img" + System.getProperty("file.separator") + "songListPic";
+        //        File file1 = new File(filePath);
+        //        if (!file1.exists()) {
+        //            if (!file1.mkdir()) {
+        //                return R.fatal("创建文件夹失败");
+        //            }
+        //        }
+        //        //在相应目录下创建文件
+        //        File dest = new File(filePath + System.getProperty("file.separator") + fileName);
+        //        String storeUrlPath = "/img/songListPic/" + fileName;
+        //        try {
+        //            urlFile.transferTo(dest);
+        //            System.out.println("文件存储路径：" + dest.getAbsolutePath());
+        //        } catch (IOException e) {
+        //            return R.fatal("上传失败" + e.getMessage());
+        //        }
+        //更新图片中的地址
+
+        //TODO  歌曲图片保存到阿里云
+        File dest = new File(fileName + System.getProperty("file.separator") + fileName);
+        String imgPath = "img/songListPic";
+        // 使用阿里云对象存储服务替换原来的存储在本地的流程
+        String ossFilePath;
         try {
-            urlFile.transferTo(dest);
-            System.out.println("文件存储路径：" + dest.getAbsolutePath());
+            ossFilePath = oss.uploadFile(imgPath, fileName, urlFile);
         } catch (IOException e) {
             return R.fatal("上传失败" + e.getMessage());
         }
         //更新图片中的地址
+
         SongList songList = new SongList();
         songList.setId(id);
         //song.setPic(ossPath);
-        songList.setPic(storeUrlPath);
+        songList.setPic(ossFilePath);
 
         int i =songListMapper.updateById(songList);
 
         if (i>0){
-            return R.success("上传成功", storeUrlPath);
+            return R.success("上传成功", ossFilePath);
         } else {
             return R.error("上传失败");
         }

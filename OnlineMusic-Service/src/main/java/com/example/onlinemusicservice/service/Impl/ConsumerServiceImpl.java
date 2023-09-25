@@ -9,6 +9,7 @@ import com.example.onlinemusicservice.mapper.ConsumerMapper;
 import com.example.onlinemusicservice.model.domain.Consumer;
 import com.example.onlinemusicservice.model.request.ConsumerRequest;
 import com.example.onlinemusicservice.service.ConsumerService;
+import com.example.onlinemusicservice.service.ObjectStoreService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,9 @@ import java.util.Date;
 public class ConsumerServiceImpl extends ServiceImpl<ConsumerMapper, Consumer> implements ConsumerService {
     @Autowired
     private ConsumerMapper consumerMapper;
+
+    @Autowired
+    private ObjectStoreService oss;
 
     /**
      * 查询所有用户信息进行分页实现方法
@@ -203,28 +207,41 @@ public class ConsumerServiceImpl extends ServiceImpl<ConsumerMapper, Consumer> i
     public R updateUserPic(MultipartFile urlFile, int id) {
         //将图片保存到服务端
         String fileName = System.currentTimeMillis() + "-" + urlFile.getOriginalFilename();
+        //TODO  将图片 保存在本地
         //得到项目根路径
-        String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "img" + System.getProperty("file.separator") + "avatorImages";
-        File file1 = new File(filePath);
-        if (!file1.exists()) {
-            if (!file1.mkdir()) {
-                return R.fatal("创建文件夹失败");
-            }
-        }
-        //在相应目录下创建文件
-        File dest = new File(filePath + System.getProperty("file.separator") + fileName);
-        String storeUrlPath = "/img/avatorImages/" + fileName;
+        //        String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "img" + System.getProperty("file.separator") + "avatorImages";
+        //        File file1 = new File(filePath);
+        //        if (!file1.exists()) {
+        //            if (!file1.mkdir()) {
+        //                return R.fatal("创建文件夹失败");
+        //            }
+        //        }
+        //        //在相应目录下创建文件
+        //        File dest = new File(filePath + System.getProperty("file.separator") + fileName);
+        //        String storeUrlPath = "/img/avatorImages/" + fileName;
+        //        try {
+        //            urlFile.transferTo(dest);
+        //            System.out.println("文件存储路径：" + dest.getAbsolutePath());
+        //        } catch (IOException e) {
+        //            return R.fatal("上传失败" + e.getMessage());
+        //        }
+
+        //TODO  歌曲图片保存到阿里云
+        File dest = new File(fileName + System.getProperty("file.separator") + fileName);
+        String imgPath = "img/consumerPic";
+        // 使用阿里云对象存储服务替换原来的存储在本地的流程
+        String ossFilePath;
         try {
-            urlFile.transferTo(dest);
-            System.out.println("文件存储路径：" + dest.getAbsolutePath());
+            ossFilePath = oss.uploadFile(imgPath, fileName, urlFile);
         } catch (IOException e) {
             return R.fatal("上传失败" + e.getMessage());
         }
+
         //更新图片中的地址
         Consumer consumer = new Consumer();
         consumer.setId(id);
         //song.setPic(ossPath);
-        consumer.setAvator(storeUrlPath);
+        consumer.setAvator(ossFilePath);
         //设置修改的时间为系统当前时间
         consumer.setUpdateTime(new Date());
 

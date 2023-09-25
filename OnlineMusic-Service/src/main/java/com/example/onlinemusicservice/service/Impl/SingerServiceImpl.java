@@ -51,7 +51,7 @@ public class SingerServiceImpl extends ServiceImpl<SingerMapper, Singer> impleme
         //属性复制
         BeanUtils.copyProperties(addSingerRequest, singer);
         //给出默认头像,后续管理员可以在线修改
-        String pic = "https://java-pp.oss-cnhangzhou.aliyuncs.com/img/singerPic/user.jpg";
+        String pic = "https://onlin-music-service.oss-cn-guangzhou.aliyuncs.com/img/singerPic/1695636087866-moren.jpg";
         singer.setPic(pic);
         //将数据插入数据库
         if (singerMapper.insert(singer) > 0) {
