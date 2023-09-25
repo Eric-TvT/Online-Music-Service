@@ -50,6 +50,7 @@ public interface SingerService extends IService<Singer> {
      * @param id 歌手id
      * @return
      */
+    //public R updateSingerPic(MultipartFile urlFile,int id);------上传 到本地
     public R updateSingerPic(MultipartFile urlFile,int id);
 }
 

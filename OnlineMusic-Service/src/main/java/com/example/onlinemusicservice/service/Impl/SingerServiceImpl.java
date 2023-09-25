@@ -5,6 +5,7 @@ import com.example.onlinemusicservice.common.R;
 import com.example.onlinemusicservice.mapper.SingerMapper;
 import com.example.onlinemusicservice.model.domain.Singer;
 import com.example.onlinemusicservice.model.request.SingerRequest;
+import com.example.onlinemusicservice.service.ObjectStoreService;
 import com.example.onlinemusicservice.service.SingerService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,15 @@ public class SingerServiceImpl extends ServiceImpl<SingerMapper, Singer> impleme
 
     @Autowired
     SingerMapper singerMapper;
+    /**
+     * TODO 阿里云服务
+     */
+    @Autowired
+    private ObjectStoreService oss;
 
     /**
      * 查询歌手
+     *
      * @return
      */
     @Override
@@ -34,6 +41,7 @@ public class SingerServiceImpl extends ServiceImpl<SingerMapper, Singer> impleme
 
     /**
      * 添加歌手
+     *
      * @param addSingerRequest
      * @return
      */
@@ -55,6 +63,7 @@ public class SingerServiceImpl extends ServiceImpl<SingerMapper, Singer> impleme
 
     /**
      * 删除歌手
+     *
      * @param id
      * @return
      */
@@ -69,6 +78,7 @@ public class SingerServiceImpl extends ServiceImpl<SingerMapper, Singer> impleme
 
     /**
      * 批量删除歌手
+     *
      * @param ids
      * @return
      */
@@ -91,6 +101,7 @@ public class SingerServiceImpl extends ServiceImpl<SingerMapper, Singer> impleme
 
     /**
      * 更新歌手信息
+     *
      * @param updateSingerRequest
      * @return
      */
@@ -107,41 +118,60 @@ public class SingerServiceImpl extends ServiceImpl<SingerMapper, Singer> impleme
 
     /**
      * 更新歌手图片
+     *
      * @param urlFile 上传的歌手图片
-     * @param id 歌手id
+     * @param id      歌手id
      * @return
      */
     @Override
     public R updateSingerPic(MultipartFile urlFile, int id) {
         //将图片保存到服务端
         String fileName = System.currentTimeMillis() + "-" + urlFile.getOriginalFilename();
-        //得到项目根路径
-        String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "img" + System.getProperty("file.separator") + "singerPic";
-        File file1 = new File(filePath);
-        if (!file1.exists()) {
-            if (!file1.mkdir()) {
-                return R.fatal("创建文件夹失败");
-            }
-        }
-        //在相应目录下创建文件
-        File dest = new File(filePath + System.getProperty("file.separator") + fileName);
-        String storeUrlPath = "/img/singerPic/" + fileName;
+
+
+        /**
+         * TODO  上传到本地
+         */
+        //        //得到项目根路径
+        //        String filePath = System.getProperty("user.dir") + System.getProperty("file.separator") + "img" + System.getProperty("file.separator") + "singerPic";
+        //        File file1 = new File(filePath);
+        //        if (!file1.exists()) {
+        //            if (!file1.mkdir()) {
+        //                return R.fatal("创建文件夹失败");
+        //            }
+        //        }
+        //        //在相应目录下创建文件
+        //        File dest = new File(filePath + System.getProperty("file.separator") + fileName);
+        //        String storeUrlPath = "/img/singerPic/" + fileName;
+        //        try {
+        //            urlFile.transferTo(dest);
+        //            System.out.println("文件存储路径：" + dest.getAbsolutePath());
+        //        } catch (IOException e) {
+        //            return R.fatal("上传失败" + e.getMessage());
+        //        }
+
+
+        //TODO 上传到 阿里云
+        File dest = new File(fileName + System.getProperty("file.separator") + fileName);
+        String imgPath = "img/singerPic";
+        // 使用阿里云对象存储服务替换原来的存储在本地的流程
+        String ossFilePath;
         try {
-            urlFile.transferTo(dest);
-            System.out.println("文件存储路径：" + dest.getAbsolutePath());
+            ossFilePath = oss.uploadFile(imgPath, fileName, urlFile);
         } catch (IOException e) {
             return R.fatal("上传失败" + e.getMessage());
+
         }
         //更新图片中的地址
         Singer singer = new Singer();
         singer.setId(id);
-        //song.setPic(ossPath);
-        singer.setPic(storeUrlPath);
+        singer.setPic(ossFilePath);
+        //singer.setPic(storeUrlPath);----本地
         //设置更新的时间位系统当前时间
         //singer.setUpdateTime(new Date());
-        int i =singerMapper.updateById(singer);
-        if (i>0){
-            return R.success("上传成功", storeUrlPath);
+        //int i = singerMapper.updateById(singer);
+        if (singerMapper.updateById(singer) > 0) {
+            return R.success("上传成功", ossFilePath);
         } else {
             return R.error("上传失败");
         }
