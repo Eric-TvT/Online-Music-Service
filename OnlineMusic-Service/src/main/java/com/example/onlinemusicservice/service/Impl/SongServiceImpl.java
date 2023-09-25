@@ -198,5 +198,17 @@ public class SongServiceImpl extends ServiceImpl<SongMapper, Song> implements So
         return R.success("查询成功",songMapper.selectList(queryWrapper));
     }
 
+    /**
+     * 根据id查询歌曲信息
+     * @param id
+     * @return
+     */
+    @Override
+    public R getSongDetail(int id) {
+        QueryWrapper<Song> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("id",id);
+        return R.success(null,songMapper.selectList(queryWrapper));
+    }
+
 
 }
