@@ -31,7 +31,7 @@ public class ConsumerLoginController {
 
 
     /**
-     * 校验验证码
+     * 校验验证码6
      *
      * @param codeRequest
      * @return
