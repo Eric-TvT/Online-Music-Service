@@ -92,15 +92,30 @@ public class ConsumerController {
     @PostMapping("/user/login/status")
     public R loginStatus(@RequestBody ConsumerRequest consumerRequest, HttpSession session) {
         // 调用服务层的校验密码业务
-        R result = consumerService.loginStatus(consumerRequest, session);
-        if (result.getSuccess()) {
-            String tokenStr = JwtUtils.generateToken(consumerRequest.getUsername());
-            Result token = new Result();
-            token.setAuthorization(tokenStr);
-            token.setObj(result.getData());
-            result.setData(token);
-        }
-        return result;
+                R result = consumerService.loginStatus(consumerRequest, session);
+                if (result.getSuccess()) {
+                    String tokenStr = JwtUtils.generateToken(consumerRequest.getUsername());
+                    Result token = new Result();
+                    token.setAuthorization(tokenStr);
+                    token.setObj(result.getData());
+                    result.setData(token);
+                }
+                return result;
+
+
+//        R result = consumerService.loginStatus(consumerRequest, session);
+//        Map<String,Object> map = new HashMap<>();
+//        map.put("res",result.getData());
+//        //登录成功的话，返回中需要包含token信息
+//        if(result.getSuccess()){
+//            String tokenStr = JwtUtils.generateToken(consumerRequest.getUsername());
+//            Token token = new Token();
+//            token.setAuthorization(tokenStr);
+//            map.put("token",token);
+//        }
+//        result.setData(map);
+//        return result;
+
     }
 
     /**
