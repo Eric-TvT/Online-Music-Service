@@ -33,6 +33,10 @@ public class Song {
     private String lyric;
 
     private String url;
+    /**
+     * 歌曲单价
+     */
+    private Double price;
 
     @Override
     public String toString() {
